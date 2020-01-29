@@ -1,4 +1,4 @@
-# Omnipay: InterKassa
+# Omnipay: Any.Money
 [Any.Money](https://any.money) payment processing driver for the Omnipay PHP payment processing library.
 
 [![Latest Stable Version](https://poser.pugx.org/webtoucher/omnipay-anymoney/v/stable)](https://packagist.org/packages/webtoucher/omnipay-anymoney)
@@ -33,8 +33,11 @@ The following gateways are provided by this package:
 
 ```php
     $gateway = \Omnipay\Omnipay::create('AnyMoney');
-    $gateway->setCheckoutId('[CHECKOUT_ID]');
-    $gateway->setSignKey('[SIGN_KEY]');
+    $gateway->setMerchantId('[MERCHANT_ID]');
+    $gateway->setPrivateKey('[PRIVATE_KEY]');
+    $this->gateway->setLogger(function ($message, $level = 'info') {
+        // Your log handler
+    });
 ```
 
 The first step is prepairing data and redirecting to Any.Money.
@@ -53,7 +56,7 @@ There is the notify request handler.
 ```php
     $request = $gateway->completePurchase($_POST);
     $response = $request->send();
-    $orderId = $response->getTransactionId(); // You can check this order and mark it as paid.
+    $orderId = $response->getOrderId(); // You can check this order and mark it as paid or failed.
     if ($response->isSuccessful()) {
         // Your handler
     } else {
