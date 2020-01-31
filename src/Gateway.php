@@ -3,16 +3,16 @@
 namespace Omnipay\AnyMoney;
 
 use Guzzle\Http\ClientInterface;
+use Omnipay\AnyMoney\Message\CompletePurchaseRequest;
+use Omnipay\AnyMoney\Message\PaywayListRequest;
+use Omnipay\AnyMoney\Message\PurchaseRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\AnyMoney\Message\AbstractRequest;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class Gateway extends AbstractGateway
 {
-    /**
-     * @var callable
-     */
-    protected $logger;
+    use LoggerTrait;
 
     /**
      * @inheritdoc
@@ -98,37 +98,13 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set logger function.
-     *
-     * @param callable $value
-     * @return $this
-     */
-    public function setLogger($value)
-    {
-        $this->logger = $value;
-        return $this;
-    }
-
-    /**
-     * Log a message.
-     *
-     * @param string $message
-     * @param string $level
-     * @return void
-     */
-    protected function log($message, $level = 'info')
-    {
-        call_user_func($this->logger, $message, $level);
-    }
-
-    /**
      * @param $name
      * @param array $parameters
      * @return AbstractRequest
      */
     private function getRequest($name, array $parameters)
     {
-        $parameters['baseEndpoint'] = $this->getGateUrl();
+        $parameters['endpoint'] = $this->getGateUrl();
         $parameters['merchantId'] = $this->getMerchantId();
         $parameters['privateKey'] = $this->getPrivateKey();
         $parameters['logger'] = $this->logger;
@@ -138,10 +114,27 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return PurchaseRequest
      */
     public function purchase(array $parameters = [])
     {
         return $this->getRequest('PurchaseRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return CompletePurchaseRequest
+     */
+    public function completePurchase(array $parameters = [])
+    {
+        return $this->getRequest('CompletePurchaseRequest', $parameters);
+    }
+
+    /**
+     * @return PaywayListRequest
+     */
+    public function paywayList()
+    {
+        return $this->getRequest('PaywayListRequest', []);
     }
 }

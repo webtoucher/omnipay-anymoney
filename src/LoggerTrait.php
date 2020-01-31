@@ -9,7 +9,7 @@ trait LoggerTrait
     /**
      * @var callable
      */
-    protected $logger;
+    private $logger;
 
     /**
      * Set logger function.
@@ -32,7 +32,7 @@ trait LoggerTrait
      */
     protected function log($message, $level = 'info')
     {
-        if ($this->logger) {
+        if (is_callable($this->logger)) {
             call_user_func($this->logger, $message, $level);
         }
     }

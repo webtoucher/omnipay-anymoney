@@ -44,6 +44,13 @@ The first step is prepairing data and redirecting to Any.Money.
 
 ```php
     $request = $gateway->purchase([
+        'amount' => 100.5,
+        'currency' => 'UAH',
+        'transactionId' => '100500',
+        'isMultiPay' => false,
+        'payway' => 'visamc_m',
+        'email' => 'user@email.com',
+        'notifyUrl' => 'https://notify.url',
     ]);
     $response = $request->send();
     if ($response->isRedirect()) {
@@ -56,7 +63,7 @@ There is the notify request handler.
 ```php
     $request = $gateway->completePurchase($_POST);
     $response = $request->send();
-    $orderId = $response->getOrderId(); // You can check this order and mark it as paid or failed.
+    $orderId = $response->getTransactionId(); // You can check this order and mark it as paid or failed.
     if ($response->isSuccessful()) {
         // Your handler
     } else {

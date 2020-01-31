@@ -10,7 +10,9 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class ProtocolException extends InvalidRequestException
 {
-    public function __construct($code, $previous = null)
+    private $data = [];
+
+    public function __construct($code, $data, $previous = null)
     {
         parent::__construct($code, 0, $previous);
         $this->message = SystemError::findMessage($code);
@@ -35,5 +37,13 @@ class ProtocolException extends InvalidRequestException
         /** @var LocalizedError $class */
         $class = "\\Omnipay\\AnyMoney\\Exception\\$language\\HumanError";
         return $class::findMessage($this->getMessage());
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
