@@ -2,8 +2,6 @@
 
 namespace Omnipay\AnyMoney\Message;
 
-use Omnipay\Common\Exception\InvalidResponseException;
-
 /**
  * Any.Money Complete Purchase Request.
  */
@@ -15,10 +13,20 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $result = $this->httpRequest->request->all();
+        $result = $this->httpRequest->getContent();
+        $result = json_decode($result, true);
         $result['sign'] = $this->httpRequest->headers->get('x-signature');
 
         return $result;
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \Omnipay\Common\Exception\InvalidResponseException
+     */
+    protected function createResponse($data, $statusCode)
+    {
+        return $this->response = new CompletePurchaseResponse($this, $data);
     }
 
     /**
@@ -27,6 +35,8 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        return $this->response = new CompletePurchaseResponse($this, $data);
+        $requestId = $data['ftime'];
+        $this->log("Request from Any.Money API: [$requestId]\n" . json_encode($data, JSON_PRETTY_PRINT));
+        return $this->createResponse($data);
     }
 }
