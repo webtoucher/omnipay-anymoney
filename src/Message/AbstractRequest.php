@@ -79,6 +79,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * @inheritDoc
+     */
+    public function setTransactionId($value)
+    {
+        return parent::setTransactionId((string) $value);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getData()

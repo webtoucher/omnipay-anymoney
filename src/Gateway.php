@@ -6,6 +6,7 @@ use Guzzle\Http\ClientInterface;
 use Omnipay\AnyMoney\Message\CompletePurchaseRequest;
 use Omnipay\AnyMoney\Message\PaywayListRequest;
 use Omnipay\AnyMoney\Message\PurchaseRequest;
+use Omnipay\AnyMoney\Message\StatusRequest;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\AnyMoney\Message\AbstractRequest;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -128,6 +129,15 @@ class Gateway extends AbstractGateway
     public function completePurchase(array $parameters = [])
     {
         return $this->getRequest('CompletePurchaseRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return StatusRequest
+     */
+    public function status(array $parameters = [])
+    {
+        return $this->getRequest('StatusRequest', $parameters);
     }
 
     /**

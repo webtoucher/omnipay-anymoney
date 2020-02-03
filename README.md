@@ -51,6 +51,7 @@ The first step is prepairing data and redirecting to Any.Money.
         'payway' => 'visamc_m',
         'email' => 'user@email.com',
         'notifyUrl' => 'https://notify.url',
+        'returnUrl' => 'https://return.url?order=100500',
     ]);
     $response = $request->send();
     if ($response->isRedirect()) {
@@ -66,6 +67,21 @@ There is the notify request handler.
     $orderId = $response->getTransactionId(); // You can check this order and mark it as paid or failed.
     if ($response->isSuccessful()) {
         // Your handler
+    } else {
+        // Your handler
+    }
+```
+
+On the return page you can check payment status.
+
+```php
+    $request = $gateway->status([
+        'transactionId' => $order,
+    ]);
+    $response = $request->send();
+    if ($response->isSuccessful()) {
+        // Your handler
+        // Maybe you need to check here the status of the order on your side
     } else {
         // Your handler
     }

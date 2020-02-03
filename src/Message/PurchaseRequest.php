@@ -101,6 +101,7 @@ class PurchaseRequest extends AbstractRequest
                 'in_curr' => $this->getCurrency(),
                 'is_multypay' => $this->getIsMultiPay(),
                 'payway' => $this->getPayway(),
+                'redirect_url' => $this->getReturnUrl(),
             ],
             'jsonrpc' => '2.0',
             'id' => (string) (int) (microtime(true) * 1000),

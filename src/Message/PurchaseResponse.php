@@ -31,10 +31,10 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectUrl()
     {
-        if (!isset($this->data['result']) || !isset($this->data['result']['redirect_url'])) {
+        if (!isset($this->data['result']) || !isset($this->data['result']['token'])) {
             return null;
         }
-        return $this->data['result']['redirect_url'];
+        return 'https://sci.any.money/ru/#token=' . $this->data['result']['token'];
     }
 
     /**

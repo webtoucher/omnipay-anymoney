@@ -3,20 +3,20 @@
 namespace Omnipay\AnyMoney\Message;
 
 /**
- * Class PurchaseRequest.
+ * Class StatusRequest.
  */
-class PaywayListRequest extends AbstractRequest
+class StatusRequest extends AbstractRequest
 {
     /**
      * Create response.
      *
      * @param mixed $data
      * @param int $statusCode
-     * @return PaywayListResponse
+     * @return PurchaseResponse
      */
     protected function createResponse($data, $statusCode)
     {
-        return $this->response = new PaywayListResponse($this, $data, $statusCode);
+        return $this->response = new StatusResponse($this, $data, $statusCode);
     }
 
     /**
@@ -25,7 +25,10 @@ class PaywayListRequest extends AbstractRequest
     public function getData()
     {
         return [
-            'method' => 'payway.list',
+            'method' => 'status',
+            'params' => [
+                'externalid' => $this->getTransactionId(),
+            ],
             'jsonrpc' => '2.0',
             'id' => (string) (int) (microtime(true) * 1000),
         ];
