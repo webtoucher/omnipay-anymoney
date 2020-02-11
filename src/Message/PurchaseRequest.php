@@ -86,6 +86,7 @@ class PurchaseRequest extends AbstractRequest
 
     /**
      * @inheritdoc
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {

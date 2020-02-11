@@ -37,6 +37,6 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $requestId = $data['ftime'];
         $this->log("Request from Any.Money API: [$requestId]\n" . json_encode($data, JSON_PRETTY_PRINT));
-        return $this->createResponse($data);
+        return $this->createResponse($data, 200);
     }
 }
